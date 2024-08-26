@@ -834,14 +834,15 @@ const Dashboard = () => {
         const data = await response.json();
         console.log("task details fetched from api call", data); // fetching data from api and printing it in console
 
-        // Assuming API returns an array of tasks with status like 'todo', 'in-progress', 'done'
-        const groupedTasks = {
-          todo: data.filter(task => task.status === 'To Do'),
-          inProgress: data.filter(task => task.status === 'Pending'),
-          done: data.filter(task => task.status === 'Completed')
-        };
-
-        setTasks(groupedTasks);
+       // Check if data is an array; if not, treat it as an array with a single item
+          const tasksArray = Array.isArray(data) ? data : [data];
+          const groupedTasks = {
+            todo: tasksArray.filter(task => task.status === 'To Do'),
+            inProgress: tasksArray.filter(task => task.status === 'Pending'),
+            done: tasksArray.filter(task => task.status === 'Completed')
+          };
+          setTasks(groupedTasks);
+        
       } catch (error) {
         console.error('Error fetching tasks:', error);
       }
@@ -905,16 +906,16 @@ const Dashboard = () => {
           <Grid container spacing={3}>
             {/* To Do Tasks */}
             <Grid item xs={12} md={4}>
-              <Typography variant="h6" gutterBottom>To do</Typography>
+              <Typography variant="h6" gutterBottom>To Do</Typography>
               {tasks.todo.map((task, index) => (
                 <TaskCard key={index}>
                   <CardContent>
                     <Typography variant="caption" color="textSecondary">
-                      {task.category} {/* Example field */}
+                      {task.AssignedTo} {/* Example field */}
                     </Typography>
-                    <Typography variant="h6">{task.title}</Typography>
+                    <Typography variant="h6">{task.CreatedBy}</Typography>
                     <Typography variant="body2" color="textSecondary">
-                      {task.description}
+                      {task.DueDate} {/* Example field */}
                     </Typography>
                     <Grid container justifyContent="space-between" alignItems="center">
                       <Grid item>
@@ -931,16 +932,16 @@ const Dashboard = () => {
 
             {/* In Progress Tasks */}
             <Grid item xs={12} md={4}>
-              <Typography variant="h6" gutterBottom>In progress</Typography>
+              <Typography variant="h6" gutterBottom>In Progress</Typography>
               {tasks.inProgress.map((task, index) => (
                 <TaskCard key={index}>
                   <CardContent>
                     <Typography variant="caption" color="textSecondary">
-                      {task.category}
+                      {task.AssignedTo}
                     </Typography>
-                    <Typography variant="h6">{task.title}</Typography>
+                    <Typography variant="h6">{task.CreatedBy}</Typography>
                     <Typography variant="body2" color="textSecondary">
-                      {task.description}
+                      {task.DueDate}
                     </Typography>
                     <Grid container justifyContent="space-between" alignItems="center">
                       <Grid item>
@@ -962,11 +963,11 @@ const Dashboard = () => {
                 <TaskCard key={index}>
                   <CardContent>
                     <Typography variant="caption" color="textSecondary">
-                      {task.category}
+                      {task.AssignedTo}
                     </Typography>
-                    <Typography variant="h6">{task.title}</Typography>
+                    <Typography variant="h6">{task.CreatedBy}</Typography>
                     <Typography variant="body2" color="textSecondary">
-                      {task.description}
+                      {task.DueDate}
                     </Typography>
                     <Grid container justifyContent="space-between" alignItems="center">
                       <Grid item>
