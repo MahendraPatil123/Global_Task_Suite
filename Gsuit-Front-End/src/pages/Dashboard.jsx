@@ -908,25 +908,37 @@ const Dashboard = () => {
             <Grid item xs={12} md={4}>
               <Typography variant="h6" gutterBottom>To Do</Typography>
               {tasks.todo.map((task, index) => (
-                <TaskCard key={index}>
+                <Card key={index} style={{ marginBottom: '16px' }}>
                   <CardContent>
                     <Typography variant="caption" color="textSecondary">
-                      {task.AssignedTo} {/* Example field */}
+                      Created By: {task.CreatedBy}
                     </Typography>
-                    <Typography variant="h6">{task.CreatedBy}</Typography>
+                    <Typography variant="h6">{task.TaskName}</Typography>
                     <Typography variant="body2" color="textSecondary">
-                      {task.DueDate} {/* Example field */}
+                      {task.TaskDesc}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary">
+                      Due Date: {task.DueDate}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary">
+                      Assigned To: {task.AssignedTo}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary">
+                      Created Date: {task.CreatedDate}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary">
+                      Status: {task.Status}
                     </Typography>
                     <Grid container justifyContent="space-between" alignItems="center">
                       <Grid item>
                         <AvatarGroup />
                       </Grid>
                       <Grid item>
-                        <IconButton><MoreVertIcon /></IconButton>
+                        <MuiIconButton><MoreVertIcon /></MuiIconButton>
                       </Grid>
                     </Grid>
                   </CardContent>
-                </TaskCard>
+                </Card>
               ))}
             </Grid>
 

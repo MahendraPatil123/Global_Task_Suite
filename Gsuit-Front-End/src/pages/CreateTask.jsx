@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   TextField,
   Button,
@@ -18,11 +18,27 @@ const Createtask = () => {
   const [description, setDescription] = useState('');
   const [dueDate, setDueDate] = useState('');
   const [assignedUser, setAssignedUser] = useState('');
+  const [users, setUsers] = useState([]);
   const [openSuccess, setOpenSuccess] = useState(false);
   const [openError, setOpenError] = useState(false);
 
   // Get current date
   const currentDate = new Date().toISOString().split('T')[0];
+
+  useEffect(() => {
+    // Fetch users from API
+    const fetchUsers = async () => {
+      try {
+        const response = await fetch('http://127.0.0.1:5000/user');
+        const data = await response.json();
+        setUsers(data);
+      } catch (error) {
+        console.error('Error fetching users:', error);
+      }
+    };
+
+    fetchUsers();
+  }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -37,8 +53,8 @@ const Createtask = () => {
       TaskID: Math.floor(Math.random() * 1000) + 1, // Mock ID generation, replace with backend logic
     };
 
-      // Log the task data to console
-      console.log('Data being sent to API:', taskData);
+    // Log the task data to console
+    console.log('Data being sent to API:', taskData);
     try {
       const response = await fetch('http://127.0.0.1:5000/createTask', {
         method: 'POST',
@@ -115,10 +131,11 @@ const Createtask = () => {
                 onChange={(e) => setAssignedUser(e.target.value)}
                 label="Assign To"
               >
-                <MenuItem value="testuser">testuser</MenuItem>
-                <MenuItem value="Jyoti Shahoo">Jyoti Shahoo</MenuItem>
-                <MenuItem value="Chandrakala">Chandrakala</MenuItem>
-                <MenuItem value="Mahendra Mohan Patil">Mahendra Mohan Patil</MenuItem>
+                {users.map((user) => (
+                  <MenuItem key={user.UserID} value={user.UserName}>
+                    {user.UserName}
+                  </MenuItem>
+                ))}
               </Select>
             </FormControl>
           </Grid>

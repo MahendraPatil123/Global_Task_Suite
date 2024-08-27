@@ -6,21 +6,21 @@
 
 // const LoginButton = () => {
 //     const { instance } = useMsal();
-  
+
 //     const handleLogin = () => {
 //       instance.loginRedirect();
 //     };
-  
+
 //     return <button onClick={handleLogin}>Login with Azure AD</button>;
 //   };
-  
+
 //   const LogoutButton = () => {
 //     const { instance } = useMsal();
-  
+
 //     const handleLogout = () => {
 //       instance.logoutRedirect();
 //     };
-  
+
 //     return <button onClick={handleLogout}>Logout</button>;
 //   };
 
@@ -66,24 +66,26 @@
 //     </div>
 //   );
 // // return (
-// //     <MsalProvider instance={msalInstance}>
-// //       <AuthenticatedTemplate>
-// //         <h1>Welcome, you are logged in!</h1>
-// //         <LogoutButton />
-// //       </AuthenticatedTemplate>
-// //       <UnauthenticatedTemplate>
-// //         <h1>Please log in</h1>
-// //         <LoginButton />
-// //       </UnauthenticatedTemplate>
-// //     </MsalProvider>
+//     <MsalProvider instance={msalInstance}>
+//       <AuthenticatedTemplate>
+//         <h1>Welcome, you are logged in!</h1>
+//         <LogoutButton />
+//       </AuthenticatedTemplate>
+//       <UnauthenticatedTemplate>
+//         <h1>Please log in</h1>
+//         <LoginButton />
+//       </UnauthenticatedTemplate>
+//     </MsalProvider>
 // //   );
 // };
 
 // export default Login;
 
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { Container, Box, TextField, Button, Typography, Paper } from '@mui/material';
 import { styled } from '@mui/system';
+import { MsalProvider, useMsal, AuthenticatedTemplate, UnauthenticatedTemplate } from "@azure/msal-react";
+import msalInstance from "../authConfig";
 
 const StyledContainer = styled(Container)({
   display: 'flex',
@@ -99,30 +101,50 @@ const StyledPaper = styled(Paper)({
   backgroundColor: '#f0f0f0',
 });
 
+const LoginButton = () => {
+  const { instance } = useMsal();
+
+  const handleLogin = () => {
+    instance.loginRedirect();
+  };
+
+  return <button onClick={handleLogin}>Login with Azure AD</button>;
+};
+
+const LogoutButton = () => {
+  const { instance } = useMsal();
+
+  const handleLogout = () => {
+    instance.logoutRedirect();
+  };
+
+  return <button onClick={handleLogout}>Logout</button>;
+};
+
 const Login = () => {
 
-    const [inputPasswordValue, setInputPasswordValue] = useState('');
-    const [inputEmailValue, setInputEmailValue] = useState('');
+  const [inputPasswordValue, setInputPasswordValue] = useState('');
+  const [inputEmailValue, setInputEmailValue] = useState('');
 
-    const handleInputPasswordChange = (event) => {
-        setInputPasswordValue(event.target.value);
-      };
-      const handleInputEmailChange = (event) => {
-        setInputEmailValue(event.target.value);
-      };
+  const handleInputPasswordChange = (event) => {
+    setInputPasswordValue(event.target.value);
+  };
+  const handleInputEmailChange = (event) => {
+    setInputEmailValue(event.target.value);
+  };
 
-      const handleSubmit = (e) => {
-        console.log("==================",e);
-        e.preventDefault();
-    
-        // Replace this with your actual login logic
-        if (e === 'spar' && e === 'spar') {
-          // Redirect to the dashboard
-          navigate('/dashboard');
-        } else {
-          alert('Invalid credentials');
-        }
-      };
+  const handleSubmit = (e) => {
+    console.log("==================", e);
+    e.preventDefault();
+
+    // Replace this with your actual login logic
+    if (e === 'spar' && e === 'spar') {
+      // Redirect to the dashboard
+      navigate('/dashboard');
+    } else {
+      alert('Invalid credentials');
+    }
+  };
 
   return (
     <StyledContainer>
@@ -170,9 +192,24 @@ const Login = () => {
           >
             Sign In
           </Button>
+
+          <MsalProvider instance={msalInstance}>
+            <AuthenticatedTemplate>
+              <h1>Welcome, you are logged in!</h1>
+              <LogoutButton />
+            </AuthenticatedTemplate>
+            <UnauthenticatedTemplate>
+              <LoginButton />
+            </UnauthenticatedTemplate>
+          </MsalProvider>
+          
         </Box>
       </StyledPaper>
+
     </StyledContainer>
+
+
+
   );
 };
 
