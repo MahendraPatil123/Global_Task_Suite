@@ -145,6 +145,7 @@ const Createtask = () => {
               variant="contained"
               color="primary"
               fullWidth
+              sx={{ backgroundColor: '#7784EE' }}
             >
               Create Task
             </Button>

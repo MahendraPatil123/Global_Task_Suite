@@ -758,6 +758,7 @@ const MainContainer = styled('div')(({ theme }) => ({
 
 const AppBarStyled = styled(AppBar)(({ theme }) => ({
   zIndex: theme.zIndex.drawer + 1,
+  backgroundColor: '#7784EE',
 }));
 
 const DrawerStyled = styled(Drawer)(({ theme = {} }) => ({
@@ -857,6 +858,14 @@ const Dashboard = () => {
     navigate('/');
   };
 
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
     <MainContainer>
       <AppBarStyled position="fixed">
@@ -871,7 +880,7 @@ const Dashboard = () => {
             />
           </Search>
           <div style={{ flexGrow: 1 }} />
-          <IconButton color="inherit">
+          <IconButton color="inherit" onClick={handleClick}>
             <Avatar alt="Profile Picture" src="https://th.bing.com/th/id/OIP.2i5UaEHaQM3PYAYXQyM1AAAAAA?w=184&h=184&c=7&r=0&o=5&dpr=1.5&pid=1.7" />
           </IconButton>
         </Toolbar>
@@ -1026,8 +1035,8 @@ const Dashboard = () => {
 };
 const AvatarGroup = () => (
   <div style={{ display: 'flex' }}>
-    <Avatar sx={{ width: 24, height: 24, marginRight: 1 }}>VH</Avatar>
-    <Avatar sx={{ width: 24, height: 24 }}>AG</Avatar>
+    <Avatar sx={{ width: 24, height: 24, background:'#00569E'}}>VH</Avatar>
+    <Avatar sx={{ width: 24, height: 24 , background:'#FEA946'}}>AG</Avatar>
   </div>
 );
 
