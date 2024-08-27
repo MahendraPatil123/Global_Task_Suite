@@ -85,6 +85,7 @@ import React, { useState } from 'react';
 import { Container, Box, TextField, Button, Typography, Paper } from '@mui/material';
 import { styled } from '@mui/system';
 import { MsalProvider, useMsal, AuthenticatedTemplate, UnauthenticatedTemplate } from "@azure/msal-react";
+import { useNavigate } from 'react-router-dom';
 import msalInstance from "../authConfig";
 
 const StyledContainer = styled(Container)({
@@ -122,23 +123,24 @@ const LogoutButton = () => {
 };
 
 const Login = () => {
-
   const [inputPasswordValue, setInputPasswordValue] = useState('');
   const [inputEmailValue, setInputEmailValue] = useState('');
+  const navigate = useNavigate();
 
   const handleInputPasswordChange = (event) => {
     setInputPasswordValue(event.target.value);
   };
+
   const handleInputEmailChange = (event) => {
     setInputEmailValue(event.target.value);
   };
 
   const handleSubmit = (e) => {
-    console.log("==================", e);
     e.preventDefault();
+    console.log("==================", inputEmailValue, inputPasswordValue);
 
-    // Replace this with your actual login logic
-    if (e === 'spar' && e === 'spar') {
+    // Check if credentials are 'spar' and 'spar'
+    if (inputEmailValue === 'spar' && inputPasswordValue === 'spar') {
       // Redirect to the dashboard
       navigate('/dashboard');
     } else {
@@ -152,7 +154,7 @@ const Login = () => {
         <Typography variant="h4" align="center" gutterBottom>
           Login
         </Typography>
-        <Box component="form" noValidate autoComplete="off">
+        <Box component="form" noValidate autoComplete="off" onSubmit={handleSubmit}>
           <TextField
             variant="outlined"
             margin="normal"
@@ -188,7 +190,6 @@ const Login = () => {
                 backgroundColor: 'gray',
               },
             }}
-            onSubmit={handleSubmit}
           >
             Sign In
           </Button>
@@ -202,16 +203,12 @@ const Login = () => {
               <LoginButton />
             </UnauthenticatedTemplate>
           </MsalProvider>
-          
         </Box>
       </StyledPaper>
-
     </StyledContainer>
-
-
-
   );
 };
 
 export default Login;
+
 

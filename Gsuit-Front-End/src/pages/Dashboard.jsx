@@ -829,7 +829,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const response = await fetch('http://127.0.0.1:5000/getTask/6');
+        const response = await fetch('http://127.0.0.1:5000/getTask/12');
         const data = await response.json();
         console.log("task details fetched from api call", data);
 
@@ -852,7 +852,9 @@ const Dashboard = () => {
 
   const handleLogout = () => {
     console.log('Logout');
-    // Implement logout functionality
+    // localStorage.removeItem('authToken'); // Example if you use localStorage
+    // sessionStorage.removeItem('userSession'); // Example if you use sessionStorage
+    navigate('/');
   };
 
   return (
