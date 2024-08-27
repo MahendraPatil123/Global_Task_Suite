@@ -46,6 +46,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import Createtask from './pages/CreateTask';
+import TokenHandler from './components/TokenHandler';
 
 const theme = createTheme({
   // You can customize the theme here
@@ -61,6 +62,7 @@ const App = () => {
         <Route path="/" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/createtask" element={<Createtask />} />
+        <Route path="/getAToken" component={<TokenHandler/>} />
       </Routes>
     </Router>
   </ThemeProvider>
