@@ -827,22 +827,21 @@ const Dashboard = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Example API call
     const fetchTasks = async () => {
       try {
         const response = await fetch('http://127.0.0.1:5000/getTask/6');
         const data = await response.json();
-        console.log("task details fetched from api call", data); // fetching data from api and printing it in console
+        console.log("task details fetched from api call", data);
 
-       // Check if data is an array; if not, treat it as an array with a single item
-          const tasksArray = Array.isArray(data) ? data : [data];
-          const groupedTasks = {
-            todo: tasksArray.filter(task => task.status === 'To Do'),
-            inProgress: tasksArray.filter(task => task.status === 'Pending'),
-            done: tasksArray.filter(task => task.status === 'Completed')
-          };
-          setTasks(groupedTasks);
-        
+        // Assuming API returns a single object
+        const tasksArray = [data];
+        const groupedTasks = {
+          todo: tasksArray.filter(task => task.Status === 'To Do'),
+          inProgress: tasksArray.filter(task => task.Status === 'Pending'),
+          done: tasksArray.filter(task => task.Status === 'Completed')
+        };
+        setTasks(groupedTasks);
+
       } catch (error) {
         console.error('Error fetching tasks:', error);
       }
@@ -885,7 +884,7 @@ const Dashboard = () => {
           </ListItem>
           <ListItem button component={Link} to="/createtask">
             <ListItemIcon><AddIcon /></ListItemIcon>
-            <ListItemText primary="Create TSK" />
+            <ListItemText primary="Create Task" />
           </ListItem>
         </List>
         <Divider />
@@ -908,7 +907,7 @@ const Dashboard = () => {
             <Grid item xs={12} md={4}>
               <Typography variant="h6" gutterBottom>To Do</Typography>
               {tasks.todo.map((task, index) => (
-                <Card key={index} style={{ marginBottom: '16px' }}>
+                <TaskCard key={index}>
                   <CardContent>
                     <Typography variant="caption" color="textSecondary">
                       Created By: {task.CreatedBy}
@@ -934,11 +933,11 @@ const Dashboard = () => {
                         <AvatarGroup />
                       </Grid>
                       <Grid item>
-                        <MuiIconButton><MoreVertIcon /></MuiIconButton>
+                        <IconButton><MoreVertIcon /></IconButton>
                       </Grid>
                     </Grid>
                   </CardContent>
-                </Card>
+                </TaskCard>
               ))}
             </Grid>
 
@@ -949,11 +948,23 @@ const Dashboard = () => {
                 <TaskCard key={index}>
                   <CardContent>
                     <Typography variant="caption" color="textSecondary">
-                      {task.AssignedTo}
+                      Created By: {task.CreatedBy}
                     </Typography>
-                    <Typography variant="h6">{task.CreatedBy}</Typography>
+                    <Typography variant="h6">{task.TaskName}</Typography>
                     <Typography variant="body2" color="textSecondary">
-                      {task.DueDate}
+                      {task.TaskDesc}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary">
+                      Due Date: {task.DueDate}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary">
+                      Assigned To: {task.AssignedTo}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary">
+                      Created Date: {task.CreatedDate}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary">
+                      Status: {task.Status}
                     </Typography>
                     <Grid container justifyContent="space-between" alignItems="center">
                       <Grid item>
@@ -975,11 +986,23 @@ const Dashboard = () => {
                 <TaskCard key={index}>
                   <CardContent>
                     <Typography variant="caption" color="textSecondary">
-                      {task.AssignedTo}
+                      Created By: {task.CreatedBy}
                     </Typography>
-                    <Typography variant="h6">{task.CreatedBy}</Typography>
+                    <Typography variant="h6">{task.TaskName}</Typography>
                     <Typography variant="body2" color="textSecondary">
-                      {task.DueDate}
+                      {task.TaskDesc}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary">
+                      Due Date: {task.DueDate}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary">
+                      Assigned To: {task.AssignedTo}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary">
+                      Created Date: {task.CreatedDate}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary">
+                      Status: {task.Status}
                     </Typography>
                     <Grid container justifyContent="space-between" alignItems="center">
                       <Grid item>
@@ -999,7 +1022,6 @@ const Dashboard = () => {
     </MainContainer>
   );
 };
-
 const AvatarGroup = () => (
   <div style={{ display: 'flex' }}>
     <Avatar sx={{ width: 24, height: 24, marginRight: 1 }}>VH</Avatar>
