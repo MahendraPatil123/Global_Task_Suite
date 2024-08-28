@@ -1,86 +1,3 @@
-// import React, { useState } from 'react';
-// import { useNavigate } from 'react-router-dom';
-// import { MsalProvider, useMsal, AuthenticatedTemplate, UnauthenticatedTemplate } from "@azure/msal-react";
-// import msalInstance from "../authConfig";
-
-
-// const LoginButton = () => {
-//     const { instance } = useMsal();
-
-//     const handleLogin = () => {
-//       instance.loginRedirect();
-//     };
-
-//     return <button onClick={handleLogin}>Login with Azure AD</button>;
-//   };
-
-//   const LogoutButton = () => {
-//     const { instance } = useMsal();
-
-//     const handleLogout = () => {
-//       instance.logoutRedirect();
-//     };
-
-//     return <button onClick={handleLogout}>Logout</button>;
-//   };
-
-// const Login = () => {
-//   const [username, setUsername] = useState('');
-//   const [password, setPassword] = useState('');
-//   const navigate = useNavigate();
-
-//   const handleLogin = (e) => {
-//     e.preventDefault();
-
-//     // Replace this with your actual login logic
-//     if (username === 'spar' && password === 'spar') {
-//       // Redirect to the dashboard
-//       navigate('/dashboard');
-//     } else {
-//       alert('Invalid credentials');
-//     }
-//   };
-
-//   return (
-//     <div>
-//       <h2>Login</h2>
-//       <form onSubmit={handleLogin}>
-//         <div>
-//           <label>Username:</label>
-//           <input
-//             type="text"
-//             value={username}
-//             onChange={(e) => setUsername(e.target.value)}
-//           />
-//         </div>
-//         <div>
-//           <label>Password:</label>
-//           <input
-//             type="password"
-//             value={password}
-//             onChange={(e) => setPassword(e.target.value)}
-//           />
-//         </div>
-//         <button type="submit">Login</button>
-//       </form>
-//     </div>
-//   );
-// // return (
-//     <MsalProvider instance={msalInstance}>
-//       <AuthenticatedTemplate>
-//         <h1>Welcome, you are logged in!</h1>
-//         <LogoutButton />
-//       </AuthenticatedTemplate>
-//       <UnauthenticatedTemplate>
-//         <h1>Please log in</h1>
-//         <LoginButton />
-//       </UnauthenticatedTemplate>
-//     </MsalProvider>
-// //   );
-// };
-
-// export default Login;
-
 import React, { useState } from 'react';
 import { Container, Box, TextField, Button, Typography, Paper } from '@mui/material';
 import { styled } from '@mui/system';
@@ -109,7 +26,12 @@ const LoginButton = () => {
     instance.loginRedirect();
   };
 
-  return <button onClick={handleLogin}>Login with Azure AD</button>;
+  return <button 
+  onClick={handleLogin} 
+  style={{ padding: '5px', display: 'block', marginTop: '10px' }}
+>
+  Login with Azure AD
+</button>
 };
 
 const LogoutButton = () => {
@@ -137,11 +59,9 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("==================", inputEmailValue, inputPasswordValue);
+    console.log(inputEmailValue, inputPasswordValue);
 
-    // Check if credentials are 'spar' and 'spar'
     if (inputEmailValue === 'spar' && inputPasswordValue === 'spar') {
-      // Redirect to the dashboard
       navigate('/dashboard');
     } else {
       alert('Invalid credentials');
@@ -152,7 +72,7 @@ const Login = () => {
     <StyledContainer>
       <StyledPaper elevation={3}>
         <Typography variant="h4" align="center" gutterBottom>
-          Login
+          Task Manager
         </Typography>
         <Box component="form" noValidate autoComplete="off" onSubmit={handleSubmit}>
           <TextField
@@ -185,7 +105,7 @@ const Login = () => {
             variant="contained"
             color="primary"
             sx={{
-              backgroundColor: 'black',
+              backgroundColor: '#7784EE',
               '&:hover': {
                 backgroundColor: 'gray',
               },
@@ -210,5 +130,6 @@ const Login = () => {
 };
 
 export default Login;
+
 
 

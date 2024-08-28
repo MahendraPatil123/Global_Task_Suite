@@ -11,7 +11,60 @@ import {
   Container,
   Snackbar,
   Alert,
+  IconButton,
+  AppBar,
+  Toolbar,
+  Avatar,
+  InputBase
 } from '@mui/material';
+import {Search as SearchIcon} from '@mui/icons-material';
+import LeftNavPanel from '../components/LeftNavPanel';
+import { useNavigate } from 'react-router-dom'; 
+import { styled } from '@mui/material/styles';
+
+const Search = styled('div')(({ theme }) => ({
+  position: 'relative',
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: theme.palette.grey[200],
+  '&:hover': {
+    backgroundColor: theme.palette.grey[300],
+  },
+  marginRight: theme.spacing(2),
+  marginLeft: 0,
+  width: '100%',
+  [theme.breakpoints.up('sm')]: {
+    marginLeft: theme.spacing(3),
+    width: 'auto',
+  },
+}));
+
+const SearchIconWrapper = styled('div')(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: '100%',
+  position: 'absolute',
+  pointerEvents: 'none',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+}));
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  color: 'inherit',
+  '& .MuiInputBase-input': {
+    padding: theme.spacing(1, 1, 1, 0),
+    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+    transition: theme.transitions.create('width'),
+    width: '100%',
+    [theme.breakpoints.up('md')]: {
+      width: '20ch',
+    },
+  },
+}));
+
+const AppBarStyled = styled(AppBar)(({ theme }) => ({
+  zIndex: theme.zIndex.drawer + 1,
+  backgroundColor: '#7784EE',
+}));
 
 const Createtask = () => {
   const [taskName, setTaskName] = useState('');
@@ -22,7 +75,7 @@ const Createtask = () => {
   const [openSuccess, setOpenSuccess] = useState(false);
   const [openError, setOpenError] = useState(false);
 
-  // Get current date
+  const navigate = useNavigate();
   const currentDate = new Date().toISOString().split('T')[0];
 
   useEffect(() => {
@@ -48,12 +101,12 @@ const Createtask = () => {
       DueDate: dueDate,
       AssignedTo: assignedUser,
       CreatedBy: 'Mahendra',
-      CreatedDate: currentDate, // Use current date dynamically
+      CreatedDate: currentDate,
       Status: 'To Do',
-      TaskID: Math.floor(Math.random() * 1000) + 1, // Mock ID generation, replace with backend logic
+      TaskID: Math.floor(Math.random() * 1000) + 1,
     };
 
-    // Log the task data to console
+    
     console.log('Data being sent to API:', taskData);
     try {
       const response = await fetch('http://127.0.0.1:5000/createTask', {
@@ -80,13 +133,39 @@ const Createtask = () => {
     setOpenError(false);
   };
 
+  const handleLogout = () => {
+    console.log('Logout');
+    navigate('/');
+  };
+
   return (
     <Container maxWidth="sm">
-      <Typography variant="h4" component="h1" gutterBottom>
+      <AppBarStyled position="fixed">
+        <Toolbar>
+          <Search>
+            <SearchIconWrapper>
+              <SearchIcon />
+            </SearchIconWrapper>
+            <StyledInputBase
+              placeholder="Search…"
+              inputProps={{ 'aria-label': 'search' }}
+            />
+          </Search>
+          <div style={{ flexGrow: 1 }} />
+          <IconButton color="inherit">
+            <Avatar alt="Profile Picture" src="https://th.bing.com/th/id/OIP.2i5UaEHaQM3PYAYXQyM1AAAAAA?w=184&h=184&c=7&r=0&o=5&dpr=1.5&pid=1.7" />
+          </IconButton>
+        </Toolbar>
+      </AppBarStyled>
+
+      <LeftNavPanel onLogout={handleLogout} />
+      <>
+      
+      <form onSubmit={handleSubmit} style={{ marginTop: '110px' }}>
+        <Grid container spacing={3}>
+        <Typography variant="h4" component="h1" gutterBottom>
         Create New Task
       </Typography>
-      <form onSubmit={handleSubmit}>
-        <Grid container spacing={3}>
           <Grid item xs={12}>
             <TextField
               fullWidth
@@ -152,6 +231,7 @@ const Createtask = () => {
           </Grid>
         </Grid>
       </form>
+      </>
 
       {/* Success Snackbar */}
       <Snackbar
