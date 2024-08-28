@@ -61,7 +61,7 @@ const Login = () => {
     e.preventDefault();
     console.log(inputEmailValue, inputPasswordValue);
 
-    if (inputEmailValue === 'spar' && inputPasswordValue === 'spar') {
+    if (inputEmailValue === 'test@sparsolutions.com' && inputPasswordValue === 'spar') {
       navigate('/dashboard');
     } else {
       alert('Invalid credentials');
